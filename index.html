@@ -10,12 +10,12 @@
   html, body {
     height: 100%;
     margin: 0;
-    margin-top:5px;
     display: flex;
     flex-direction: column;
     background-color: #f1f3f5;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
+
 
   .navbar { box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
   .navbar-brand { font-size: 1.5rem; color: #ffd43b !important; }
@@ -96,6 +96,12 @@
             <i class="bi bi-clock-history fs-4"></i>
           </a>
         </li>
+
+          <li class="nav-item mx-2">
+          <a class="nav-link" href="#" data-url="https://marcosbws2024.github.io/consolecodigo" data-bs-toggle="tooltip" title="Histórico">
+           <i class="bi bi-terminal fs-4"></i>
+          </a>
+        </li>
       </ul>
       <button class="btn btn-outline-warning fw-bold" id="logoutBtn" data-bs-toggle="tooltip" title="Sair do sistema">
         <i class="bi bi-box-arrow-right fs-5"></i>
@@ -150,6 +156,3 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 </script>
 </body>
 </html>
-
-
-
