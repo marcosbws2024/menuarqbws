@@ -16,10 +16,9 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
-
   .navbar { box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
   .navbar-brand { font-size: 1.5rem; color: #ffd43b !important; }
-  .nav-link.active { font-weight: bold; color: #ffd43b !important; }
+  .nav-link.active, .dropdown-item.active { font-weight: bold; color: #ffd43b !important; }
 
   .iframe-container {
     flex: 1;
@@ -68,6 +67,7 @@
 </head>
 <body>
 
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="#">BWS Utilitários</a>
@@ -76,6 +76,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
+
+        <!-- Links principais -->
         <li class="nav-item mx-2">
           <a class="nav-link active" href="#" data-url="https://marcosbws2024.github.io/bwscsv" data-bs-toggle="tooltip" title="BWS CSV">
             <i class="bi bi-file-earmark-spreadsheet fs-4"></i>
@@ -92,17 +94,29 @@
           </a>
         </li>
         <li class="nav-item mx-2">
-          <a class="nav-link" href="#" data-url="https://marcosbws2024.github.io/historicolinha" data-bs-toggle="tooltip" title="Histórico">
+          <a class="nav-link" href="#" data-url="https://marcosbws2024.github.io/historicolinha" data-bs-toggle="tooltip" title="Histórico de Linhas">
             <i class="bi bi-clock-history fs-4"></i>
           </a>
         </li>
-
-          <li class="nav-item mx-2">
-          <a class="nav-link" href="#" data-url="https://marcosbws2024.github.io/consolecodigo" data-bs-toggle="tooltip" title="Código">
-           <i class="bi bi-terminal fs-4"></i>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="#" data-url="https://marcosbws2024.github.io/consolecodigo" data-bs-toggle="tooltip" title="Código / Console">
+            <i class="bi bi-terminal fs-4"></i>
           </a>
         </li>
+
+        <!-- Menu Ajuda -->
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle" href="#" id="ajudaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-question-circle fs-4"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="ajudaDropdown">
+            <li><a class="dropdown-item" href="#" data-url="https://marcosbws2024.github.io/analiselinha">Analise Histório de Linha</a></li>
+            <li><a class="dropdown-item" href="#" data-url="https://marcosbws2024.github.io/guia">Guia de Uso</a></li>
+          </ul>
+        </li>
+
       </ul>
+
       <button class="btn btn-outline-warning fw-bold" id="logoutBtn" data-bs-toggle="tooltip" title="Sair do sistema">
         <i class="bi bi-box-arrow-right fs-5"></i>
       </button>
@@ -110,6 +124,7 @@
   </div>
 </nav>
 
+<!-- Iframe e Loader -->
 <div class="iframe-container mt-5">
   <div class="loader active" id="loader">
     <div class="spinner-border text-warning" role="status"></div>
@@ -118,10 +133,12 @@
   <iframe id="pageFrame" src="https://marcosbws2024.github.io/bwscsv"></iframe>
 </div>
 
+<!-- Footer -->
 <footer>
   &copy; 2025 BWS Sistemas - Todos os direitos reservados.
 </footer>
 
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 const pageFrame = document.getElementById('pageFrame');
@@ -133,12 +150,23 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
 });
 
-// Troca de páginas
-document.querySelectorAll('.nav-link').forEach(link => {
+// Troca de páginas e destaque do link ativo
+document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
+
+    // Remove active de todos os nav-links e dropdown-items
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
+    document.querySelectorAll('.dropdown-item').forEach(l => l.classList.remove('active'));
+
+    // Ativa o clicado
+    if(link.classList.contains('dropdown-item')){
+      link.classList.add('active');
+      document.getElementById('ajudaDropdown').classList.add('active');
+    } else {
+      link.classList.add('active');
+    }
+
     loader.classList.add('active');
     pageFrame.src = link.dataset.url;
   });
@@ -156,4 +184,3 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 </script>
 </body>
 </html>
-
