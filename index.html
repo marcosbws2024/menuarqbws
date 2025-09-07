@@ -27,6 +27,7 @@
     border-top: 2px solid #dee2e6;
     border-bottom: 2px solid #dee2e6;
     background-color: #ffffff;
+    margin-top: 56px; /* para compensar navbar fixed-top */
   }
 
   iframe { width: 100%; height: 100%; border: none; border-radius: 4px; }
@@ -59,6 +60,37 @@
   .loader .spinner-border { width: 3rem; height: 3rem; }
   .loader-text { font-weight: bold; color: #212529; }
 
+  /* Estilo do ícone de ajuda (círculo amarelo) */
+  .help-group { display: inline-flex; align-items: center; gap: 4px; }
+  .help-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ffd43b;
+    color: #212529;
+    font-size: 1.15rem;
+    user-select: none;
+    cursor: default; /* não parece clicável */
+    box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  }
+  /* estilo visual quando ativo (após escolher item do submenu) */
+  .help-icon.active {
+    box-shadow: 0 0 0 3px rgba(255,212,59,0.18);
+  }
+
+  /* ajustar aparência da setinha (split toggle) para ficar discreta */
+  .help-split-toggle {
+    background: transparent;
+    border: none;
+    color: #ffd43b;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+  .help-split-toggle:focus { box-shadow: none; }
+
   @media (max-width: 768px) {
     .navbar-brand { font-size: 1.2rem; }
     .nav-link { font-size: 1rem; }
@@ -75,7 +107,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center align-items-center">
 
         <!-- Links principais -->
         <li class="nav-item mx-2">
@@ -104,15 +136,30 @@
           </a>
         </li>
 
-        <!-- Menu Ajuda -->
-        <li class="nav-item dropdown mx-2">
-          <a class="nav-link dropdown-toggle" href="#" id="ajudaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-question-circle fs-4"></i>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="ajudaDropdown">
-            <li><a class="dropdown-item" href="#" data-url="https://marcosbws2024.github.io/analiselinha">Analise Histório de Linha</a></li>
-            <li><a class="dropdown-item" href="#" data-url="https://marcosbws2024.github.io/guia">Guia de Uso</a></li>
-          </ul>
+        <!-- Menu Ajuda (split dropdown) -->
+        <li class="nav-item mx-2">
+          <div class="btn-group help-group" role="group">
+            <!-- Ícone apenas visual (NÃO tem ação) -->
+            <span id="ajudaIcon" class="help-icon" title="Ajuda">
+              <i class="bi bi-question-circle"></i>
+            </span>
+
+            <!-- Botão que abre o dropdown (apenas a setinha) -->
+            <button
+              id="ajudaDropdown"
+              type="button"
+              class="dropdown-toggle dropdown-toggle-split help-split-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              aria-label="Abrir menu ajuda">
+            </button>
+
+            <!-- Submenu -->
+            <ul class="dropdown-menu" aria-labelledby="ajudaDropdown">
+              <li><a class="dropdown-item" href="#" data-url="https://marcosbws2024.github.io/analiselinha">Análise Histórico de Linha</a></li>
+              <li><a class="dropdown-item" href="#" data-url="https://marcosbws2024.github.io/guia">Guia de Uso</a></li>
+            </ul>
+          </div>
         </li>
 
       </ul>
@@ -125,7 +172,7 @@
 </nav>
 
 <!-- Iframe e Loader -->
-<div class="iframe-container mt-5">
+<div class="iframe-container">
   <div class="loader active" id="loader">
     <div class="spinner-border text-warning" role="status"></div>
     <div class="loader-text">Carregando...</div>
@@ -143,6 +190,8 @@
 <script>
 const pageFrame = document.getElementById('pageFrame');
 const loader = document.getElementById('loader');
+const ajudaIcon = document.getElementById('ajudaIcon');
+const ajudaDropdown = document.getElementById('ajudaDropdown');
 
 // Ativa tooltips
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -151,37 +200,44 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
 });
 
 // Troca de páginas e destaque do link ativo
+// Observação: não incluímos o toggle (setinha) nem o ícone na seleção, para evitar que o ícone abra algo.
 document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
 
-    // Remove active de todos os nav-links e dropdown-items
+    // limpa estados active de nav-links, dropdown-items e ícone de ajuda
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     document.querySelectorAll('.dropdown-item').forEach(l => l.classList.remove('active'));
+    ajudaIcon.classList.remove('active');
+    ajudaDropdown.classList.remove('active');
 
-    // Ativa o clicado
-    if(link.classList.contains('dropdown-item')){
+    // marca o clicado
+    if (link.classList.contains('dropdown-item')) {
       link.classList.add('active');
-      document.getElementById('ajudaDropdown').classList.add('active');
+      // destacar o ícone e a setinha para indicar que um item de ajuda está ativo
+      ajudaIcon.classList.add('active');
+      ajudaDropdown.classList.add('active');
     } else {
       link.classList.add('active');
     }
 
-    loader.classList.add('active');
-    pageFrame.src = link.dataset.url;
+    // só troca o iframe se existir data-url
+    if (link.dataset.url) {
+      loader.classList.add('active');
+      pageFrame.src = link.dataset.url;
+    }
   });
 });
 
-// Loader enquanto iframe carrega
+// Loader ao carregar iframe
 pageFrame.addEventListener('load', () => {
   loader.classList.remove('active');
 });
 
-// Logout
+// Logout (exemplo simples)
 document.getElementById('logoutBtn').addEventListener('click', () => {
   alert('Você saiu do sistema.');
 });
 </script>
 </body>
 </html>
-
