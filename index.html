@@ -95,6 +95,99 @@
     .navbar-brand { font-size: 1.2rem; }
     .nav-link { font-size: 1rem; }
   }
+
+   /* ===================== */
+/* Rodapé principal      */
+/* ===================== */
+footer.footer {
+  font-size: 0.8rem;          /* Tamanho geral do texto */
+  padding-top: 3px;           /* Espaçamento superior */
+  padding-bottom: 3px;        /* Espaçamento inferior */
+  box-shadow: 0 -2px 6px rgba(255, 255, 255, 0.1);
+}
+
+/* Títulos das seções do rodapé */
+footer h6 {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+/* ===================== */
+/* Links personalizados  */
+/* ===================== */
+.custom-link {
+  color: #2905f1;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.custom-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: #ffd43b;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.custom-link:hover {
+  color: #ffc107;
+}
+
+.custom-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ===================== */
+/* Botão expansivo       */
+/* ===================== */
+.btn-expansao {
+  width: 16px;                /* largura do botão */
+  height: 16px;               /* altura do botão */
+  font-size: 0.75rem;         /* tamanho da fonte */
+  padding: 0;                 /* remove excesso interno */
+  line-height: 1;             /* centraliza o ícone */
+}
+
+.btn-expansao i {
+  font-size: 0.9rem;          /* tamanho do ícone dentro do botão */
+}
+
+/* ===================== */
+/* Área expandida        */
+/* ===================== */
+#footerExtra .card-body {
+  padding: 10px 12px;         /* reduz espaço interno */
+  font-size: 0.8rem;          /* texto menor */
+}
+
+#footerExtra p {
+  margin-bottom: 2px;         /* linhas mais próximas */
+}
+
+/* ===================== */
+/* Ícones sociais        */
+/* ===================== */
+footer .bi {
+  transition: transform 0.2s ease;
+}
+
+footer .bi:hover {
+  transform: scale(1.1);      /* animação leve ao passar o mouse */
+  color: #ffc107;             /* destaque */
+}
+
+
+
 </style>
 </head>
 <body>
@@ -165,6 +258,7 @@
             <!-- Submenu -->
             <ul class="dropdown-menu" aria-labelledby="ajudaDropdown">
               <li><a class="dropdown-item" href="#" data-url="https://marcosbws2024.github.io/analiselinha">Análise Histórico de Linha</a></li>
+              <li><a class="dropdown-item" href="#" data-url="https://marcosbws2024.github.io/expip">Explicacao IP</a></li>
               <li><a class="dropdown-item" href="#" data-url="https://marcosbws2024.github.io/guia">Guia de Uso</a></li>
             </ul>
           </div>
@@ -189,8 +283,59 @@
 </div>
 
 <!-- Footer -->
-<footer>
-  &copy; 2025 BWS Sistemas - Todos os direitos reservados.
+<!-- Rodapé -->
+<footer class="footer mt-auto bg-dark text-light pt-2 pb-2">
+  <div class="container text-center">
+
+    <!-- Botão expansivo -->
+    <button class="btn btn-outline-warning btn-expansao mb-2" type="button"
+            data-bs-toggle="collapse" data-bs-target="#footerExtra"
+            aria-expanded="false" aria-controls="footerExtra">
+      <i class="bi bi-chevron-down"></i>
+    </button>
+
+    <!-- Área expansiva -->
+    <div class="collapse" id="footerExtra">
+      <div class="card card-body bg-secondary text-light border-0 mt-2 p-2">
+        <div class="row text-start text-md-center small">
+          
+          <div class="col-md-3 mb-2">
+            <h6 class="text-warning">Gerenciador de CHIP</h6>
+            <p class="mb-0"><i class="bi bi-sim"></i> <a href="https://bws.saitro.com/" target="_blank" class="custom-link">Saitro</a></p>
+            <p class="mb-0"><i class="bi bi-sim"></i> <a href="https://linksfield.saitro.com/sistema/login/" target="_blank" class="custom-link">Links Field</a></p>
+          </div>
+
+          <div class="col-md-3 mb-2">
+            <h6 class="text-warning">Sistemas</h6>
+            <p class="mb-0"><i class="bi bi-gear-wide-connected"></i> <a href="https://bconfig.vercel.app/login" target="_blank" class="custom-link">Configurador</a></p>
+            <p class="mb-0"><i class="bi bi-geo-alt-fill"></i> <a href="https://bwfleets.com/" target="_blank" class="custom-link">BWFleet</a></p>
+            <p class="mb-0"><i class="bi bi-geo-alt-fill"></i> <a href="https://www.bws-ww.com/" target="_blank" class="custom-link">Wan Way</a></p>
+          </div>
+
+          <div class="col-md-3 mb-2">
+            <h6 class="text-warning">SMS</h6>
+            <p class="mb-0"><i class="bi bi-chat-dots"></i> <a href="https://sms.comtele.com.br/" target="_blank" class="custom-link">Comtele</a></p>
+            <p class="mb-0"><i class="bi bi-chat-dots"></i> <a href="https://www.bw-send.com/login" target="_blank" class="custom-link">BWSend</a></p>
+            <p class="mb-0"><i class="bi bi-chat-dots"></i> <a href="https://portal.emnify.com/" target="_blank" class="custom-link">Emnify</a></p>
+            <p class="mb-0"><i class="bi bi-chat-dots"></i> <a href="https://messages.google.com/web/authentication" target="_blank" class="custom-link">SMS Android</a></p>
+          </div>
+
+          <div class="col-md-3 mb-2">
+            <h6 class="text-warning">Siga-nos</h6>
+            <div class="d-flex justify-content-center gap-2">
+              <a href="https://www.facebook.com/bwsiot" class="text-light" target="_blank"><i class="bi bi-facebook fs-5"></i></a>
+              <a href="https://www.instagram.com/bwsiot" class="text-light" target="_blank"><i class="bi bi-instagram fs-5"></i></a>
+              <a href="https://br.linkedin.com/company/bws-iot" class="text-light" target="_blank"><i class="bi bi-linkedin fs-5"></i></a>
+            </div>
+          </div>
+
+        </div>
+        <div class="mt-1 small">
+          <p class="mb-0">&copy; 2025 BWS Sistemas - Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </footer>
 
 <!-- Scripts -->
@@ -249,3 +394,4 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 </script>
 </body>
 </html>
+
